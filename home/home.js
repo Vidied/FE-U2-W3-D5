@@ -45,7 +45,8 @@ const creaCards = (cards) => {
           <p class="card-text text-secondary small flex-grow-1">${card.description}</p>
           <p class="fs-4 fw-bold text-success">${card.price}€</p>
           <div class="d-flex justify-content-between">
-            <a href="../dettagli/dettagli.html?id=${card._id}" class="btn btn-outline-info btn-sm">Dettagli</a>
+          <a href="../dettagli/dettagli.html?id=${card._id}" class="btn btn-outline-info btn-sm">Dettagli</a>
+            <a href="../backoffice/backoffice.html?id=${card._id}" class="btn btn-outline-info btn-sm">Modifica</a>
             <button class="btn btn-outline-danger btn-sm" onclick="deleteCard('${card._id}')">Elimina</button>
           </div>
         </div>
