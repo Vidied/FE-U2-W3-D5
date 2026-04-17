@@ -4,6 +4,34 @@ const footerYear = () => {
 
 footerYear();
 
+const cardUrl = "https://striveschool-api.herokuapp.com/api/product/";
+const key =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWUyMDliNTczOWY4NzAwMTU3YWIxMTQiLCJpYXQiOjE3NzY0MzI1NTAsImV4cCI6MTc3NzY0MjE1MH0.GwvJTqEj-2alcz_OcknmDWAWZDooyWrbijillNT4yZI";
+const form = document.getElementById("product-form");
+const allTheParameters = new URLSearchParams(location.search);
+const cardID = allTheParameters.get("id");
+
+if (cardID) {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.innerText = "Aggiorna prodotto";
+
+  fetch(cardUrl + cardID, {
+    method: "GET",
+    headers: {
+      Authorization: key,
+    },
+  })
+    .then((res) => (res.ok ? res.json() : Promise.reject("Errore caricamento")))
+    .then((data) => {
+      document.getElementById("productName").value = data.name;
+      document.getElementById("description").value = data.description;
+      document.getElementById("brand").value = data.brand;
+      document.getElementById("imageUrl").value = data.imageUrl;
+      document.getElementById("price").value = data.price;
+    })
+    .catch((err) => console.log("Errore recupero dati", err));
+}
+
 class Product {
   constructor(_productName, _description, _brand, _imageUrl, _price) {
     this.name = _productName;
@@ -14,46 +42,39 @@ class Product {
   }
 }
 
-const form = document.getElementById("product-form");
-
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const productName = document.getElementById("productName").value;
-  const description = document.getElementById("description").value;
-  const brand = document.getElementById("brand").value;
-  const imageUrl = document.getElementById("imageUrl").value;
-  const price = parseFloat(document.getElementById("price").value);
 
-  const newProduct = new Product(
-    productName,
-    description,
-    brand,
-    imageUrl,
-    price,
-  );
+  const productData = {
+    name: document.getElementById("productName").value,
+    description: document.getElementById("description").value,
+    brand: document.getElementById("brand").value,
+    imageUrl: document.getElementById("imageUrl").value,
+    price: parseFloat(document.getElementById("price").value),
+  };
 
-  fetch("https://striveschool-api.herokuapp.com/api/product/", {
-    method: "POST",
-    body: JSON.stringify(newProduct),
+  const urlToUse = cardID ? cardUrl + cardID : cardUrl;
+  const methodToUse = cardID ? "PUT" : "POST";
+
+  fetch(urlToUse, {
+    method: methodToUse,
+    body: JSON.stringify(productData),
     headers: {
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWUyMDliNTczOWY4NzAwMTU3YWIxMTQiLCJpYXQiOjE3NzY0MjU3MzMsImV4cCI6MTc3NzYzNTMzM30.cJlqLuAPOMS7zBTU4pWm3sWoQ55fVyS-JADqsi3rapo",
+      Authorization: key,
     },
   })
     .then((res) => {
-      if (res.ok) {
-        console.log(res);
-        return res.json();
-      } else {
-        throw new Error("Errore salvataggio prodotto");
-      }
+      if (res.ok) console.log(res);
+      return res.json();
+      throw new Error("Errore nel server: " + res.status);
     })
     .then((data) => {
-      console.log("Salvato", data);
-      form.reset();
+      alert(cardID ? "Modificato con successo!" : "Creato con successo!");
+      if (!cardID) form.reset();
     })
     .catch((err) => {
-      console.log("Oops c'è un errore", err);
+      console.error("Errore:", err);
+      alert("Operazione fallita. Controlla la console.");
     });
 });
