@@ -1,8 +1,8 @@
 const footerYear = () => {
-  const span = document
-    .getElementById("year")
-    .innerText(new date().getFullYear());
+  document.getElementById("year").innerText = new Date().getFullYear();
 };
+
+footerYear();
 
 const productName = document.getElementById("productName").value;
 const description = document.getElementById("description").value;
