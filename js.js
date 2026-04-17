@@ -78,3 +78,27 @@ form.addEventListener("submit", (e) => {
       alert("Operazione fallita. Controlla la console.");
     });
 });
+
+// DELETE
+
+const deleteProduct = (id) => {
+  if (confirm("Sicuro di voler eliminare il prodotto?")) {
+    fetch(cardUrl + cardID, {
+      method: "DELETE",
+      headers: {
+        Authorization: key,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          alert("Prodotto eliminato");
+          location.reload();
+        } else {
+          throw new Error("Errore cancellazione prodotto");
+        }
+      })
+      .catch((err) => {
+        console.log("Errore", err);
+      });
+  }
+};
