@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
   <head>
-    <title>PokèCards Home</title>
+    <title>PokèCards Dettagli</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,12 +16,20 @@
   </head>
 
   <body class="d-flex flex-column vh-100">
-    <header>
-      <!-- place navbar here -->
+    <header class="mb-3">
+      <nav class="nav justify-content-center">
+        <a class="nav-link active" href="../home/home.html" aria-current="page"
+          >Home</a
+        >
+        <a class="nav-link" href="../backoffice/backoffice.html">Backoffice</a>
+      </nav>
     </header>
-    <main class="flex-grow-1">
-      <section>
-        <article id="card-container"></article>
+    <main class="container flex-grow-1">
+      <section class="row justify-content-center">
+        <article
+          id="container-dettagli"
+          class="col-12 col-md-8 col-lg-6 col-xl-4"
+        ></article>
       </section>
     </main>
     <footer>
@@ -29,7 +37,7 @@
         <p><span id="year"></span> - PokèCards shop</p>
       </div>
     </footer>
-    <script src="home.js"></script>
+    <script src="dettagli.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
